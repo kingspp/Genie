@@ -1,4 +1,5 @@
 //v1.1.0
+var fs = require('fs');
 var casper = require('casper').create();
 var url = "http://results.vtu.ac.in/";
 var pad = "000";
@@ -7,11 +8,24 @@ var code = "MH";
 var year = "11";
 var branch = "EC";
 var num = 1;
-var dir = "images/";
+var dir = "sample/"+branch+"/";
 var ans = "001";
 var startUSN = 1;
 var endUSN = 120;
 var USN = clg+code+year+branch;
+//Adjust waitTime for your internet speed (in ms)
+var waitTime = 10;
+
+//Rankings
+var FCD = 0;
+var FC=0;
+var SC=0;
+var F=0;
+
+var res="";
+
+var as = document.querySelectorAll("tbody tr td");
+var match = " Result:  FIRST CLASS WITH DISTINCTION ";
 
 casper.start(url, function() {
     this.echo(this.getTitle());
@@ -19,7 +33,7 @@ casper.start(url, function() {
 
 
 
-for(var i=startUSN ; i<=endUSN ; i++){	//this.echo(clg+code+year+branch+(num++));	
+for(var i=startUSN ; i<=endUSN+1 ; i++){	
 	casper.waitForSelector("form[name='new']", function() {			
 			this.fill('form[name="new"]', {
 			rid: USN+ans,
@@ -31,17 +45,34 @@ for(var i=startUSN ; i<=endUSN ; i++){	//this.echo(clg+code+year+branch+(num++))
 	casper.then(function(){
 			// scrape something else			
 		   this.waitFor(function check() {
+		   	var x = require('casper').selectXPath;
+		   if (casper.exists(x('//b[(contains(text(), "DISTINCTION"))]'))){
+			 res="FCD: "+(++FCD)+"\n"+" FC: "+FC+"\n"+" SC: "+SC+"\n"+" F: "+F;	
+			 fs.write("FCD.txt", res, 'w'); 
+			}
+			else if (casper.exists(x('//b[(contains(text(), "FIRST CLASS"))]'))){
+			 res="FCD: "+(FCD)+"\n"+" FC: "+(++FC)+"\n"+" SC: "+SC+"\n"+" F: "+F;
+			 fs.write("FCD.txt", res, 'w'); 
+			}
+			else if (casper.exists(x('//b[(contains(text(), "SECOND CLASS"))]'))){
+			 res="FCD: "+(FCD)+"\n"+" FC: "+(FC)+"\n"+" SC: "+(++SC)+"\n"+" F: "+F;
+			 fs.write("FCD.txt", res, 'w'); 
+			}
+			else if (casper.exists(x('//b[(contains(text(), "FAIL"))]'))){
+			 res="FCD: "+(FCD)+"\n"+" FC: "+(FC)+"\n"+" SC: "+(SC)+"\n"+" F: "+(++F);
+			 fs.write("FCD.txt", res, 'w'); 
+			}
 			return (this.getCurrentUrl() === 'http://results.vtu.ac.in/vitavi.php');
 		},
 		function then() { // step to execute when check() is ok			
-			 casper.then(function() {
-			// capture the entire page.
+			 casper.then(function() {		
 			casper.capture(dir+USN+ans+".png");
-			this.wait(1000,function(){});
+			this.wait(waitTime,function(){});
 			var str = (num++).toString();
 			ans = pad.substring(0, pad.length - str.length) + str;
 			casper.echo(USN+ans);
 			casper.thenOpen(url);
+		
 		   
 		  });
 		},
@@ -49,7 +80,7 @@ for(var i=startUSN ; i<=endUSN ; i++){	//this.echo(clg+code+year+branch+(num++))
 			this.echo('Failed to load to page', 'ERROR');
 		});
 	})
+	 
 	
 }
-
 casper.run();
