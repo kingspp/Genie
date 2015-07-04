@@ -1,4 +1,4 @@
-//v1.1.0
+//v1.1.1
 var fs = require('fs');
 var casper = require('casper').create();
 var url = "http://results.vtu.ac.in/";
@@ -9,8 +9,9 @@ var year = "11";
 var branch = "EC";
 var num = 1;
 var dir = "sample/"+branch+"/";
-var ans = "001";
-var startUSN = 1;
+var str = num.toString();			
+var ans = pad.substring(0, pad.length - str.length) + str;
+var startUSN = num;
 var endUSN = 120;
 var USN = clg+code+year+branch;
 //Adjust waitTime for your internet speed (in ms)
