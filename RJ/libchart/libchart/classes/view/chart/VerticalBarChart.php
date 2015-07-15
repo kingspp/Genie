@@ -18,27 +18,27 @@
      */
     
     /**
-     * Horizontal bar chart
+     * Chart composed of vertical bars.
      *
      * @author Jean-Marc Trémeaux (jm.tremeaux at gmail.com)
      */
-    class HorizontalBarChart extends BarChart {
+    class VerticalBarChart extends BarChart {
         /**
          * Ratio of empty space beside the bars.
          */
         private $emptyToFullRatio;
-    
+
         /**
-         * Creates a new horizontal bar chart.
+         * Creates a new vertical bar chart
          *
          * @param integer width of the image
          * @param integer height of the image
          */
-        public function HorizontalBarChart($width = 600, $height = 250) {
+        public function VerticalBarChart($width = 600, $height = 250) {
             parent::BarChart($width, $height);
 
             $this->emptyToFullRatio = 1 / 5;
-            $this->plot->setGraphPadding(new Padding(5, 30, 30, 50));
+            $this->plot->setGraphPadding(new Padding(5, 30, 50, 50));
         }
 
         /**
@@ -52,7 +52,7 @@
         }
         
         /**
-         * Print the axis.
+         * Print the horizontal and veritcal axis.
          */
         protected function printAxis() {
             $minValue = $this->axis->getLowerBoundary();
@@ -66,30 +66,29 @@
             
             // Get the graph area
             $graphArea = $this->plot->getGraphArea();
-
-            // Horizontal axis
+            
+            // Vertical axis
             for ($value = $minValue; $value <= $maxValue; $value += $stepValue) {
-                $x = $graphArea->x1 + ($value - $minValue) * ($graphArea->x2 - $graphArea->x1) / ($this->axis->displayDelta);
+                $y = $graphArea->y2 - ($value - $minValue) * ($graphArea->y2 - $graphArea->y1) / ($this->axis->displayDelta);
 
-                imagerectangle($img, $x - 1, $graphArea->y2 + 2, $x, $graphArea->y2 + 3, $palette->axisColor[0]->getColor($img));
-                imagerectangle($img, $x - 1, $graphArea->y2, $x, $graphArea->y2 + 1, $palette->axisColor[1]->getColor($img));
+                imagerectangle($img, $graphArea->x1 - 3, $y, $graphArea->x1 - 2, $y + 1, $palette->axisColor[0]->getColor($img));
+                imagerectangle($img, $graphArea->x1 - 1, $y, $graphArea->x1, $y + 1, $palette->axisColor[1]->getColor($img));
 
-                $text->printText($img, $x, $graphArea->y2 + 5, $this->plot->getTextColor(), $value, $text->fontCondensed, $text->HORIZONTAL_CENTER_ALIGN);
+                $text->printText($img, $graphArea->x1 - 5, $y, $this->plot->getTextColor(), $value, $text->fontCondensed, $text->HORIZONTAL_RIGHT_ALIGN | $text->VERTICAL_CENTER_ALIGN);
             }
 
             // Get first serie of a list
             $pointList = $this->getFirstSerieOfList();
 
-            // Vertical Axis
+            // Horizontal Axis
             $pointCount = count($pointList);
             reset($pointList);
-            $rowHeight = ($graphArea->y2 - $graphArea->y1) / $pointCount;
-            reset($pointList);
+            $columnWidth = ($graphArea->x2 - $graphArea->x1) / $pointCount;
             for ($i = 0; $i <= $pointCount; $i++) {
-                $y = $graphArea->y2 - $i * $rowHeight;
+                $x = $graphArea->x1 + $i * $columnWidth;
 
-                imagerectangle($img, $graphArea->x1 - 3, $y, $graphArea->x1 - 2, $y + 1, $palette->axisColor[0]->getColor($img));
-                imagerectangle($img, $graphArea->x1 - 1, $y, $graphArea->x1, $y + 1, $palette->axisColor[1]->getColor($img));
+                imagerectangle($img, $x - 1, $graphArea->y2 + 2, $x, $graphArea->y2 + 3, $palette->axisColor[0]->getColor($img));
+                imagerectangle($img, $x - 1, $graphArea->y2, $x, $graphArea->y2 + 1, $palette->axisColor[1]->getColor($img));
 
                 if ($i < $pointCount) {
                     $point = current($pointList);
@@ -97,7 +96,7 @@
     
                     $label = $point->getX();
 
-                    $text->printText($img, $graphArea->x1 - 5, $y - $rowHeight / 2, $this->plot->getTextColor(), $label, $text->fontCondensed, $text->HORIZONTAL_RIGHT_ALIGN | $text->VERTICAL_CENTER_ALIGN);
+                    $text->printDiagonal($img, $x + $columnWidth * 1 / 3, $graphArea->y2 + 10, $this->plot->getTextColor(), $label);
                 }
             }
         }
@@ -117,13 +116,13 @@
             // Get the graph area
             $graphArea = $this->plot->getGraphArea();
 
-            $minValue = $this->axis->getLowerBoundary();
-            $maxValue = $this->axis->getUpperBoundary();
-            $stepValue = $this->axis->getTics();
-            
             // Start from the first color for the first serie
             $barColorSet = $palette->barColorSet;
             $barColorSet->reset();
+
+            $minValue = $this->axis->getLowerBoundary();
+            $maxValue = $this->axis->getUpperBoundary();
+            $stepValue = $this->axis->getTics();
 
             $serieCount = count($serieList);
             for ($j = 0; $j < $serieCount; $j++) {
@@ -131,7 +130,7 @@
                 $pointList = $serie->getPointList();
                 $pointCount = count($pointList);
                 reset($pointList);
-                
+
                 // Select the next color for the next serie
                 if (!$this->config->getUseMultipleColor()) {
                     $color = $barColorSet->currentColor();
@@ -139,24 +138,24 @@
                     $barColorSet->next();
                 }
 
-                $rowHeight = ($graphArea->y2 - $graphArea->y1) / $pointCount;
+                $columnWidth = ($graphArea->x2 - $graphArea->x1) / $pointCount;
                 for ($i = 0; $i < $pointCount; $i++) {
-                    $y = $graphArea->y2 - $i * $rowHeight;
+                    $x = $graphArea->x1 + $i * $columnWidth;
 
                     $point = current($pointList);
                     next($pointList);
 
                     $value = $point->getY();
                     
-                    $xmax = $graphArea->x1 + ($value - $minValue) * ($graphArea->x2 - $graphArea->x1) / ($this->axis->displayDelta);
+                    $ymin = $graphArea->y2 - ($value - $minValue) * ($graphArea->y2 - $graphArea->y1) / ($this->axis->displayDelta);
 
                     // Bar dimensions
-                    $yWithMargin = $y - $rowHeight * $this->emptyToFullRatio;
-                    $rowWidthWithMargin = $rowHeight * (1 - $this->emptyToFullRatio * 2);
-                    $barWidth = $rowWidthWithMargin / $serieCount;
+                    $xWithMargin = $x + $columnWidth * $this->emptyToFullRatio;
+                    $columnWidthWithMargin = $columnWidth * (1 - $this->emptyToFullRatio * 2);
+                    $barWidth = $columnWidthWithMargin / $serieCount;
                     $barOffset = $barWidth * $j;
-                    $y1 = $yWithMargin - $barWidth - $barOffset;
-                    $y2 = $yWithMargin - $barOffset - 1;
+                    $x1 = $xWithMargin + $barOffset;
+                    $x2 = $xWithMargin + $barWidth + $barOffset - 1;
 
                     // Select the next color for the next item in the serie
                     if ($this->config->getUseMultipleColor()) {
@@ -167,15 +166,15 @@
                         
                     // Draw caption text on bar
                     if ($this->config->getShowPointCaption()) {
-                        $text->printText($img, $xmax + 5, $y2 - $barWidth / 2, $this->plot->getTextColor(), $value, $text->fontCondensed, $text->VERTICAL_CENTER_ALIGN);
+                        $text->printText($img, $x1 + $barWidth / 2 , $ymin - 5, $this->plot->getTextColor(), $value, $text->fontCondensed, $text->HORIZONTAL_CENTER_ALIGN | $text->VERTICAL_BOTTOM_ALIGN);
                     }
-                    
-                    // Draw the horizontal bar
-	                imagefilledrectangle($img, $graphArea->x1 + 1, $y1, $xmax, $y2, $shadowColor->getColor($img));
-                    
-	                // Prevents drawing a small box when x = 0
-                    if ($graphArea->x1 != $xmax) {
-                        imagefilledrectangle($img, $graphArea->x1 + 2, $y1 + 1, $xmax - 4, $y2, $color->getColor($img));
+
+                    // Draw the vertical bar
+                    imagefilledrectangle($img, $x1, $ymin, $x2, $graphArea->y2 - 1, $shadowColor->getColor($img));
+
+                    // Prevents drawing a small box when y = 0
+                    if ($ymin != $graphArea->y2) {
+                        imagefilledrectangle($img, $x1 + 1, $ymin + 1, $x2 - 4, $graphArea->y2 - 1, $color->getColor($img));
                     }
                 }
             }
