@@ -131,51 +131,60 @@
         <div class="container">
             <div class="call-to-action text-center" >
                 <h2>Result Genie</h2>
-                <a id="sslc" href="#" class="btn btn-default btn-xl wow tada">SSLC</a>
-				<a id="puc" href="#" class="btn btn-default btn-xl wow tada">PUC</a>
-				<a id="avtu" onClick="dispVTU();" class="btn btn-default btn-xl wow tada">VTU</a>
+                <a id="aSSLC" class="btn btn-default btn-xl wow tada toggleA aSSLC" data-target=".dSSLC">SSLC</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<a id="aPUC"  class="btn btn-default btn-xl wow tada toggleA aPUC" data-target=".dPUC">PUC</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<a id="aVTU"  class="btn btn-default btn-xl wow tada toggleA aVTU" data-target=".dVTU">VTU</a>
             </div>
+		</div>
+			<div id="dSSLC" class="toggleD dSSLC" style="display:none; padding:50px;">
+				<h3 class="text-center">Work in Progress :) </h3>
+			</div>
 			
-			<div id="dVTU" style="display:none; padding:15px;">
+			<div id="dPUC" class="toggleD dPUC"style="display:none; padding:50px;">
+				<h3 class="text-center">Work in Progress :) </h3>
+			</div>			
+				
+			<div id="dVTU" class="toggleD dVTU" style="display:none; padding:50px;">
 				<div class="container">
 					<form role="form">
 					    <div class="col-md-4">
 							<div class="form-group">
-								<label for="name">Region Code</label>
-								<input type="text" class="region form-control" size="25" id="email">
+								<label for="region">Region Code</label>
+								<input type="text" class="region form-control" id="region">
 							</div>
 							<div id="remote" class="form-group">
-								<label for="pwd">College Code</label>							
-								<input class="typeahead form-control" type="text">
+								<label for="college">College Code</label>							
+								<input class="college form-control" type="text" id="college">
 							</div>							  
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
-								<label for="email">Year</label>
-								<input type="email" class="form-control" size="25" id="email">
+								<label for="year">Year</label>
+								<input type="number" class="form-control" id="year">
 							</div>
 							<div class="form-group">
-								<label for="pwd">Branch</label>
-								<input type="password" class="form-control" id="pwd">
+								<label for="branch">Branch</label>
+								<input type="text" class="form-control" id="branch">
 							</div>						
 						</div>
 						
 						<div class="col-md-4">
 							<div class="form-group">
-								<label for="email">Start</label>
-								<input type="email" class="form-control" size="25" id="email">
+								<label for="startU">Start</label>
+								<input type="number" class="form-control"  id="startU">
 							</div>
 							<div class="form-group">
-								<label for="pwd">End</label>
-								<input type="password" class="form-control" id="pwd">
+								<label for="endU">End</label>
+								<input type="number" class="form-control" id="endU">
 							</div>
-							<button type="submit" class="btn btn-default">Submit</button>
+							<button type="submit" class="btn btn-default" style="float:right; background-color:#216e51">Submit</button>
 						</div>
 						
 					</form>
 				</div>
 			</div>
-        </div>
+		
+       
     </aside>
 
     <section id="contact">
@@ -198,8 +207,8 @@
         </div>
     </section>
 	
-	 <div class="col-lg-8 col-lg-offset-2 text-center">
-        <a href="#page-top" style="color:black; font-size:13px;font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif; font-weight: 700; padding-bottom:25px">BETA v0.0.3</a>
+	<div class="col-lg-8 col-lg-offset-2 text-center">
+        <a href="#page-top" style="color:black; font-size:15px;font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif; font-weight: 700; padding-bottom:25px" id="version"></a>
 	</div>
 
     <!-- jQuery -->

@@ -1,16 +1,16 @@
-var stocks = new Bloodhound({
+var college = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('college_name'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,		
 	prefetch: 'college.json'
 			
 });
-stocks.initialize();
+college.initialize();
 	
- $('.typeahead').typeahead(
+ $('.college').typeahead(
     null, {
-		name: 'stocks',
+		name: 'college',
         displayKey: 'college_name',
-        source: stocks.ttAdapter()
+        source: college.ttAdapter()
     }).on([
                     'typeahead:initialized',
                     'typeahead:initialized:err',
@@ -20,7 +20,7 @@ stocks.initialize();
                     'typeahead:opened',
                     'typeahead:closed'
                 ].join(' '), function(event, data){            
-            $('.typeahead').val(data.college_code); 		
+            $('.college').val(data.college_code); 		
         });
 		
 		
