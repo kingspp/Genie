@@ -1,0 +1,21 @@
+[
+	{
+		"region_name" : "Mysuru",
+		"region_code" : "4"
+	},
+	
+	{
+		"region_name" : "Bengaluru",
+		"region_code" : "1"
+	},
+	
+	{
+		"region_name" : "Belagavi",
+		"region_code" : "2"
+	},
+	
+	{
+		"region_name" : "Kalaburgi",
+		"region_code" : "3"
+	}	
+]
