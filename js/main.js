@@ -1,4 +1,4 @@
-var version = "Stable v0.1.5"
+var version = "STABLE v0.1.5"
 $('#version').html(version);
 var fileN = 10;
 
