@@ -41,7 +41,7 @@ var SC=0;
 var F=0;
 
 //Result file
-var fileName = dir+"../Result.txt";
+var fileName ="Result.txt";
 var res="";
 var as = document.querySelectorAll("tbody tr td");
 
