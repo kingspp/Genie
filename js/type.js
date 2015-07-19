@@ -1,7 +1,7 @@
 var college = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('college_name'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,		
-	prefetch: 'college.json'
+	prefetch: 'js/JSON/college.json'
 			
 });
 college.initialize();
@@ -20,7 +20,7 @@ college.initialize();
                     'typeahead:opened',
                     'typeahead:closed'
                 ].join(' '), function(event, data){            
-            $('.college').val(data.college_code); 		
+            $('#college').val(data.college_code); 		
         });
 		
 		
@@ -28,7 +28,7 @@ college.initialize();
 var region = new Bloodhound({
 	datumTokenizer: Bloodhound.tokenizers.obj.whitespace('region_name'),
 	queryTokenizer: Bloodhound.tokenizers.whitespace,
-	prefetch: 'region.json'
+	prefetch: 'js/JSON/region.json'
 });
 region.initialize();
 
@@ -46,7 +46,31 @@ $('.region').typeahead(
         'typeahead:opened',
         'typeahead:closed'	
 	].join(' '), function(event,data){
-		$('.region').val(data.region_code);
+		$('#region').val(data.region_code);
 		
-		});
+	});
+	
+var branch = new Bloodhound({
+	datumTokenizer: Bloodhound.tokenizers.obj.whitespace('branch_name'),
+	queryTokenizer: Bloodhound.tokenizers.whitespace,
+	prefetch: 'js/JSON/branch.json'
+});
+branch.initialize();
+$('.branch').typeahead(
+	null,{
+		name: 'branch',
+		displayKey: 'branch_name',
+		source: branch.ttAdapter()	
+	}).on([
+		'typeahead:initialized',
+        'typeahead:initialized:err',
+        'typeahead:selected',
+        'typeahead:autocompleted',
+        'typeahead:cursorchanged',
+        'typeahead:opened',
+        'typeahead:closed'	
+	].join(' '), function(event,data){
+		$('#branch').val(data.branch_code);		
+	});
+	
             

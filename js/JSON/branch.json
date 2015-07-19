@@ -1,0 +1,21 @@
+[
+	{
+		"branch_name" : "Mysuru",
+		"branch_code" : "4"
+	},
+	
+	{
+		"branch_name" : "Bengaluru",
+		"branch_code" : "1"
+	},
+	
+	{
+		"branch_name" : "Belagavi",
+		"branch_code" : "2"
+	},
+	
+	{
+		"branch_name" : "Kalaburgi",
+		"branch_code" : "3"
+	}	
+]
