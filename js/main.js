@@ -1,8 +1,8 @@
-var version = "BETA v0.1.4"
+var version = "Stable v0.1.5"
 $('#version').html(version);
 var fileN = 10;
 
-var casperJS = false;
+var casperJS = true;
 var genie = "";
 
 var $bgs = $('.toggleD');
@@ -22,18 +22,20 @@ var $bgs = $('.toggleD');
 function listf(){	
 	$.ajax({
             type:"POST",
+			dataType: "json",
             url:"php/listFiles.php",			
-            data:{clg: $('#region').val(), code: $('#college').val(), year: $('#year').val(), branch: $('#branch').val()},
-			dataType:"json",
-            success:function(data){		
-				$("#Ldr").percentageLoader({value: '250kb', progress: data/fileN});		
-				if(data != fileN){
-					console.log((data/fileN)*100);
+            data:{clg: $('#region').val(), code: $('#college').val(), year: $('#year').val(), branch: $('#branch').val()},		
+            success:function(data){
+				alert(data.fileN);				
+				var files = parseInt(data.fileN);
+				$("#Ldr").percentageLoader({value: data.size, progress: files/fileN});		
+				if(files != fileN){
+					console.log((files/fileN)*100);
 					setTimeout(function(){
 						listf();
 					}, 2000);
 					}
-				if(data>=fileN)
+				if(files>=fileN)
 				zipContents();
             }
         });
