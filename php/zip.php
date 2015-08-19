@@ -1,5 +1,6 @@
 <?php
 
+//Production
 $clg = $_POST["clg"];
 $code = $_POST["code"];
 $year = $_POST["year"];
@@ -7,6 +8,7 @@ $branch = $_POST["branch"];
 
 
 /*
+//Testing
 $clg = "4";
 $code = "mh";
 $year = "11";
