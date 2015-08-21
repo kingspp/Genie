@@ -24,7 +24,9 @@
     <link rel="stylesheet" href="css/animate.min.css" type="text/css">
     <link rel="stylesheet" href="css/jquery.percentageloader-0.2.css">
     <link rel="stylesheet" href="css/jquery-ui.css">
-
+    
+    <script src="js/modernizr-2.6.2.min.js"></script>
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/creative.css" type="text/css">
     <link rel="stylesheet" href="css/example.css" type="text/css">
@@ -86,6 +88,7 @@
             </div>
         </div>
     </header>
+
 
     <section class="bg-primary" id="about">
         <div class="container">
@@ -158,16 +161,16 @@
         </div>
 
         <div id="dVTU" class="toggleD dVTU" style="display:none; padding:50px;">
-            <form role="form" id="vtuForm" action="php/exec.php">
+            <form role="form" id="vtuForm" action="php/casperjs/bin/exec.php">
                 <div class="container">
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="region">Region Code</label>
+                            <label for="region">Region Code</label><br>
                             <input type="text" class="region form-control" id="region" required>
                         </div>
                         <div id="remote" class="form-group">
-                            <label for="college">College Code</label>
+                            <label for="college">College Code</label><br>
                             <input class="college form-control" type="text" id="college" required>
                             <br>
                         </div>
@@ -271,6 +274,22 @@
     <div class="col-lg-8 col-lg-offset-2 text-center">
         <a href="#page-top" style="color:black; font-size:15px;font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif; font-weight: 700; padding-bottom:25px" id="version"></a>
     </div>
+    <!--
+        <div class="component">
+            
+			
+				<button class="cn-button" id="cn-button">+</button>
+				<div class="cn-wrapper" id="cn-wrapper">
+				    <ul>
+				      <li><a href="#"><span class="icon-picture"></span></a></li>
+				      <li><a href="#"><span class="icon-headphones"></span></a></li>
+				      <li><a href="#"><span class="icon-home"></span></a></li>				      
+				     </ul>
+				</div>
+				<div id="cn-overlay" class="cn-overlay"></div>
+				
+			</div>
+    -->
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
@@ -291,6 +310,7 @@
     <script src="js/type.js"></script>
     <script src="js/main.js"></script>
     <script src="js/loaderAnim.js"></script>
+
 
 </body>
 

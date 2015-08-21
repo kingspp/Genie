@@ -16,7 +16,7 @@ $branch = "me";
 */
 
 
-$src = 	"sample/";
+$src = 	"sample/".$clg.$code.$year.$branch."/";
 $dest = $clg.$code.$year.$branch.".zip";
 Zip($src,$dest)	;
 	
